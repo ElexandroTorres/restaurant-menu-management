@@ -42,6 +42,10 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/tablets").hasRole("MANAGER")
                                 .requestMatchers(HttpMethod.PUT, "/tablets/**").hasRole("MANAGER")
                                 .requestMatchers(HttpMethod.DELETE, "/tablets").hasRole("MANAGER")
+                                .requestMatchers(HttpMethod.GET, "/menus/**").hasRole("TABLET")
+                                .requestMatchers(HttpMethod.POST, "/menus").hasRole("MANAGER")
+                                .requestMatchers(HttpMethod.PUT, "/menus/**").hasRole("MANAGER")
+                                .requestMatchers(HttpMethod.DELETE, "/menus").hasRole("MANAGER")
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling -> {
