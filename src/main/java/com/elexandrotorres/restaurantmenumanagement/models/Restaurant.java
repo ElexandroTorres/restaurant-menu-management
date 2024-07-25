@@ -3,6 +3,8 @@ package com.elexandrotorres.restaurantmenumanagement.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "TB_RESTAURANT")
 public class Restaurant {
@@ -15,6 +17,10 @@ public class Restaurant {
     private String address;
     @NotBlank(message = "Phone number of the restaurant is required")
     private String phoneNumber;
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Menu> menus;
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Tablet> tablets;
 
     public Restaurant() {
     }

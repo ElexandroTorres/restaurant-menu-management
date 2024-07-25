@@ -38,6 +38,10 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/restaurants").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "/restaurants/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/restaurants").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/tablets/**").hasRole("MANAGER")
+                                .requestMatchers(HttpMethod.POST, "/tablets").hasRole("MANAGER")
+                                .requestMatchers(HttpMethod.PUT, "/tablets/**").hasRole("MANAGER")
+                                .requestMatchers(HttpMethod.DELETE, "/tablets").hasRole("MANAGER")
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling -> {

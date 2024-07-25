@@ -81,6 +81,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     private RestaurantDto toDto(Restaurant restaurant) {
         return new RestaurantDto(
+                restaurant.getId(),
                 restaurant.getName(),
                 restaurant.getAddress(),
                 restaurant.getPhoneNumber()
