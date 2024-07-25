@@ -1,5 +1,6 @@
 package com.elexandrotorres.restaurantmenumanagement.security;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,12 +32,21 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers(HttpMethod.POST, "/auth").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/users/admin").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/users/manager").hasRole("MANAGER")
+                                .requestMatchers(HttpMethod.POST, "/auth").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/restaurants/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/restaurants").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/restaurants/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/restaurants").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
+                .exceptionHandling(exceptionHandling -> {
+                    exceptionHandling
+                            .authenticationEntryPoint((request, response, authException) ->
+                                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized"))
+                            .accessDeniedHandler((request, response, accessDeniedException) ->
+                                    response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied"));
+                })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
