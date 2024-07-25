@@ -26,12 +26,19 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username);
+        User user = userRepository.findByEmail(username);
+        if(user == null) {
+            throw new UsernameNotFoundException("User not found with email: " + username);
+        }
+        return user;
     }
 
     @Override
     public String getToken(AuthDto authDto) {
         User userInDataBase = userRepository.findByEmail(authDto.email());
+        if(userInDataBase == null) {
+            throw new UsernameNotFoundException("User not found with email: " + authDto.email());
+        }
 
         return generateTokenJwt(userInDataBase);
     }
