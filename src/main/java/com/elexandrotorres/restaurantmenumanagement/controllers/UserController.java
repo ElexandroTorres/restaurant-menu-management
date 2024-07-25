@@ -2,7 +2,10 @@ package com.elexandrotorres.restaurantmenumanagement.controllers;
 
 import com.elexandrotorres.restaurantmenumanagement.dtos.UserDto;
 import com.elexandrotorres.restaurantmenumanagement.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,17 +19,12 @@ public class UserController {
     }
 
     @PostMapping
-    private UserDto save(@RequestBody UserDto userDto) {
-        return userService.save(userDto);
-    }
-
-    @GetMapping("/admin")
-    private String getAdmin() {
-        return "Permissão de administrador";
-    }
-
-    @GetMapping("/manager")
-    private String getManager() {
-        return "Permissão de Gerente";
+    private ResponseEntity<?> save(@Valid @RequestBody UserDto userDto) {
+        try {
+            UserDto savedUser = userService.save(userDto);
+            return ResponseEntity.ok(savedUser);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

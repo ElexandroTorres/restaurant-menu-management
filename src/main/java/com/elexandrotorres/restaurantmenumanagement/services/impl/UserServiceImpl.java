@@ -30,9 +30,9 @@ public class UserServiceImpl implements UserService {
         String encryptedPassword = passwordEncoder.encode(userDto.password());
 
         User user = new User(userDto.name(), userDto.email(), encryptedPassword, userDto.role());
-        //user.setRole(RoleEnum.MANAGER);
+
         User savedUser = userRepository.save(user);
-        //Retornar uma mensagem mais informativa. Usuario criado com sucesso.
+
         return new UserDto(savedUser.getName(), savedUser.getEmail(), savedUser.getPassword(), savedUser.getRole());
     }
 }

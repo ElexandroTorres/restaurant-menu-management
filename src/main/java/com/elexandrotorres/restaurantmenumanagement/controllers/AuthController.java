@@ -3,6 +3,7 @@ package com.elexandrotorres.restaurantmenumanagement.controllers;
 import com.elexandrotorres.restaurantmenumanagement.dtos.AuthDto;
 import com.elexandrotorres.restaurantmenumanagement.dtos.AuthResponseDto;
 import com.elexandrotorres.restaurantmenumanagement.services.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping
-    public ResponseEntity<?> authenticate(@RequestBody AuthDto authDto) {
+    public ResponseEntity<?> authenticate(@Valid @RequestBody AuthDto authDto) {
         try {
             var userAuthToken = new UsernamePasswordAuthenticationToken(authDto.email(), authDto.password());
             authenticationManager.authenticate(userAuthToken);
