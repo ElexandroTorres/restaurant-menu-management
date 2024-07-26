@@ -46,6 +46,10 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/menus").hasRole("MANAGER")
                                 .requestMatchers(HttpMethod.PUT, "/menus/**").hasRole("MANAGER")
                                 .requestMatchers(HttpMethod.DELETE, "/menus").hasRole("MANAGER")
+                                .requestMatchers("/swagger-ui/**",
+                                        "/swagger-resources/*",
+                                        "/v3/api-docs/**")
+                                .permitAll()
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling -> {
@@ -70,4 +74,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
+
 }
